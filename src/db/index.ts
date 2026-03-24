@@ -10,5 +10,6 @@ import * as schema from "./schema";
 
 const sql = neon(process.env.DATABASE_URL!);
 
+
 // drizzle(): Wraps the raw SQL executor with the Drizzle ORM interface.
 export const db = drizzle(sql, { schema });
