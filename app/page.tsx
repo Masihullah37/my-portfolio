@@ -91,7 +91,7 @@ export default function Home() {
           <p className="text-muted-foreground font-sans">
             All libraries working if you see this UI
           </p>
-
+{/* 
           <div className="flex gap-2 justify-center">
             <Button variant="default">Click Me</Button>
             <Badge variant="secondary">Badge</Badge>
@@ -101,7 +101,18 @@ export default function Home() {
             <div className="bg-primary/10 p-2 rounded-full">
               <Check className="w-6 h-6 text-primary" />
             </div>
-          </div>
+          </div> */}
+          
+<div className="flex gap-2 justify-center">
+  {/* This button links directly to the file you put in public/ */}
+  <Button asChild>
+    <a href="/resume.pdf" download="Masihullah_Resume.pdf">
+      Download Resume
+    </a>
+  </Button>
+  
+  <Badge variant="secondary">v1.0</Badge>
+</div>
         </Card>
       </motion.div>
     </main>
