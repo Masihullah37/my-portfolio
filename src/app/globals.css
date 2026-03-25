@@ -1,0 +1,136 @@
+
+
+/* ── Google Fonts — MUST be first ────────────────────────────────────────────
+   Syne:    Geometric, modern sans-serif — headings, logo, section titles
+   DM Sans: Clean, variable weight — body text, descriptions, labels
+   display=swap: Shows fallback font immediately, swaps when loaded → no FOIT */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base Layer ────────────────────────────────────────────────────────────────
+   CSS custom properties (variables) used by shadcn/ui AND our dark theme.
+   Defined ONCE here — no duplicates anywhere.
+   Format: HSL "hue saturation% lightness%" (shadcn/ui requirement) */
+@layer base {
+  :root {
+    /* ── Dark theme CSS variables ── */
+    --background:           222 47% 5%;
+    --foreground:           210 40% 96%;
+    --card:                 222 47% 8%;
+    --card-foreground:      210 40% 96%;
+    --popover:              222 47% 8%;
+    --popover-foreground:   210 40% 96%;
+    --primary:              263 70% 65%;
+    --primary-foreground:   222 47% 5%;
+    --secondary:            217 32% 17%;
+    --secondary-foreground: 210 40% 96%;
+    --muted:                217 32% 17%;
+    --muted-foreground:     215 20% 65%;
+    --accent:               263 70% 65%;
+    --accent-foreground:    210 40% 96%;
+    --destructive:          0 63% 31%;
+    --destructive-foreground: 210 40% 96%;
+    --border:               217 32% 18%;
+    --input:                217 32% 18%;
+    --ring:                 263 70% 65%;
+    --radius:               0.75rem;
+  }
+
+  /* Universal box-sizing — prevents width overflow issues */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    border-color: hsl(var(--border));
+  }
+
+  
+  body {
+    color: rgb(235, 235, 240);
+    /* font-sans uses DM Sans from tailwind.config.ts fontFamily.sans */
+    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Smooth scroll — clicking nav links smoothly animates to sections */
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden; /* prevent horizontal scroll from animated orbs */
+  }
+
+  /* ── Custom Scrollbar ─────────────────────────────────────────────────────
+     webkit (Chrome, Edge, Safari) and Firefox */
+  ::-webkit-scrollbar       { width: 5px; }
+  ::-webkit-scrollbar-track { background: rgb(8, 8, 13); }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(139, 92, 246);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: rgb(109, 40, 217); }
+
+  /* Firefox scrollbar — uses different properties than webkit */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(139, 92, 246) rgb(8, 8, 13);
+  }
+}
+
+/* ── Custom Utility Classes ────────────────────────────────────────────────────
+   Works exactly like Tailwind classes — use in className=""
+   Example: <h1 className="gradient-text">Hello</h1>                           */
+@layer utilities {
+
+  /* Gradient text: violet → blue → teal
+   * display:inline-block is REQUIRED — gradient-text on block elements clips */
+  .gradient-text {
+    background: linear-gradient(135deg, #c4b5fd 0%, #60a5fa 50%, #34d399 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+
+  /* Frosted glass card effect — used throughout the portfolio */
+  .glass-card {
+    background: rgba(15, 15, 25, 0.65);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(139, 92, 246, 0.12);
+  }
+
+  /* Animated gradient background — applied to <body> in layout.tsx
+   *
+   * ⚠️  BUG FIX: This class must NOT be overridden by a body { background-color }
+   *    rule anywhere in this CSS file. If overridden, the animation is invisible.
+   *    The gradient-bg class IS the background. No additional background needed. */
+  .gradient-bg {
+    background: linear-gradient(
+      -45deg,
+      rgb(8, 8, 13),
+      rgb(18, 10, 35),
+      rgb(8, 18, 28),
+      rgb(12, 8, 22)
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 18s ease infinite;
+  }
+}
+
+/* ── Keyframe Animations ───────────────────────────────────────────────────────
+   These are referenced by name in CSS: animation: float 9s ease-in-out infinite
+   NOTE: @keyframes outside @layer is valid and intentional — they're global. */
+
+/* Slowly shifts the gradient background through its four corner positions */
+@keyframes gradientShift {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
+/* Gentle floating up/down motion for Hero section decorative orbs */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-18px); }
+}
