@@ -2,19 +2,41 @@
 
 "use client";
 
+// src/components/Navbar.tsx
+// Navigation principale — fixe en haut, responsive desktop/mobile.
+// Fix principal : sur mobile, les liens doivent faire défiler vers la bonne section
+// ET fermer le menu. J'utilise scrollIntoView au lieu de href anchor pour éviter
+// les problèmes de timing avec l'état isMobileOpen.
+
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 
 const NAV_LINKS = [
-  { label: "About",    href: "#about"    },
-  { label: "Skills",   href: "#skills"   },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact",  href: "#contact"  },
+  { label: "À Propos",  href: "#about"    },
+  { label: "Compétences", href: "#skills" },
+  { label: "Projets",   href: "#projects" },
+  { label: "Contact",   href: "#contact"  },
 ] as const;
 
 const LOGO_SRC = "/logo.png";
+
+// Smooth scroll helper — ferme d'abord le menu, puis attend que le DOM
+// se stabilise avant de scroller. Sans ce délai, le scroll se déclenche
+// pendant que le menu se ferme et atterrit au mauvais endroit.
+function scrollToSection(href: string, onClose?: () => void) {
+  const id = href.replace("#", "");
+  if (onClose) onClose();
+
+  // On attend la fin de l'animation de fermeture du menu (~300ms)
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, 320);
+}
 
 export default function Navbar() {
   const [isScrolled,   setIsScrolled]   = useState(false);
@@ -26,16 +48,20 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Fermer le menu si on passe en mode desktop
   useEffect(() => {
     const onResize = () => { if (window.innerWidth >= 768) setIsMobileOpen(false); };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  // Bloquer le scroll de la page quand le menu mobile est ouvert
   useEffect(() => {
     document.body.style.overflow = isMobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [isMobileOpen]);
+
+  const closeMenu = () => setIsMobileOpen(false);
 
   return (
     <motion.header
@@ -46,7 +72,7 @@ export default function Navbar() {
         position: "fixed",
         top: 0, left: 0, right: 0,
         zIndex: 50,
-        transition: "padding 0.3s ease, background 0.3s ease, backdrop-filter 0.3s ease",
+        transition: "padding 0.3s ease, background 0.3s ease",
         padding: isScrolled ? "0.6rem 0" : "1rem 0",
         background: isScrolled ? "rgba(5, 7, 10, 0.9)" : "rgba(5, 7, 10, 0.3)",
         backdropFilter: isScrolled ? "blur(24px)" : "blur(8px)",
@@ -63,45 +89,49 @@ export default function Navbar() {
         justifyContent: "space-between",
       }}>
 
-        {/* ── Logo ── */}
-        <a href="#" style={{ display: "flex", alignItems: "center", gap: "0.75rem", textDecoration: "none", flexShrink: 0 }}>
-          {/* Spinning logo wrapper */}
+        {/* ── Logo — statique, sans rotation ── */}
+        <a
+          href="#"
+          onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+          style={{ display: "flex", alignItems: "center", gap: "0.75rem", textDecoration: "none", flexShrink: 0 }}
+        >
           <div style={{
-            width: "48px",
-            height: "48px",
-            borderRadius: "13px",
+            width: "44px",
+            height: "44px",
+            borderRadius: "12px",
             overflow: "hidden",
             border: "1.5px solid rgba(34, 197, 94, 0.3)",
-            boxShadow: "0 0 16px rgba(34, 197, 94, 0.18)",
+            boxShadow: "0 0 14px rgba(34, 197, 94, 0.15)",
             flexShrink: 0,
-            animation: "logoSpin 8s linear infinite",
+            // Logo stationnaire — pas de rotation
           }}>
             <Image
               src={LOGO_SRC}
-              alt="Masihullah logo"
-              width={48}
-              height={48}
+              alt="Logo Masihullah"
+              width={44}
+              height={44}
               style={{ objectFit: "cover", width: "100%", height: "100%", display: "block" }}
             />
           </div>
           <span style={{
             fontFamily: "'Syne', sans-serif",
             fontWeight: 800,
-            fontSize: "1.25rem",
+            fontSize: "1.2rem",
             color: "#f0fdf4",
             letterSpacing: "-0.02em",
             whiteSpace: "nowrap",
           }}>
-            Masihullah<span style={{ color: "#4ade80" }}></span>
+            Masihullah
           </span>
         </a>
 
-        {/* ── Desktop nav ── */}
+        {/* ── Navigation desktop ── */}
         <nav className="navbar-desktop" style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
           {NAV_LINKS.map((link, i) => (
             <motion.a
               key={link.href}
               href={link.href}
+              onClick={e => { e.preventDefault(); scrollToSection(link.href); }}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + i * 0.07, duration: 0.4 }}
@@ -115,6 +145,7 @@ export default function Navbar() {
                 fontFamily: "'DM Sans', sans-serif",
                 transition: "all 0.2s ease",
                 whiteSpace: "nowrap",
+                cursor: "pointer",
               }}
               onMouseEnter={e => {
                 const el = e.currentTarget as HTMLElement;
@@ -133,7 +164,7 @@ export default function Navbar() {
 
           <motion.a
             href="/resume.pdf"
-            download="Masihullah_Resume.pdf"
+            download="Masihullah_CV.pdf"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.48, duration: 0.4 }}
@@ -162,15 +193,15 @@ export default function Navbar() {
               el.style.boxShadow = "0 2px 14px rgba(22, 163, 74, 0.35)";
             }}
           >
-            Resume ↓
+            CV ↓
           </motion.a>
         </nav>
 
-        {/* ── Mobile hamburger ── */}
+        {/* ── Bouton hamburger mobile ── */}
         <button
           onClick={() => setIsMobileOpen(!isMobileOpen)}
           className="navbar-hamburger"
-          aria-label={isMobileOpen ? "Close menu" : "Open menu"}
+          aria-label={isMobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
           style={{
             width: "42px", height: "42px",
             display: "flex", alignItems: "center", justifyContent: "center",
@@ -197,7 +228,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* ── Mobile dropdown ── */}
+      {/* ── Menu mobile déroulant ── */}
       <AnimatePresence>
         {isMobileOpen && (
           <motion.div
@@ -218,20 +249,26 @@ export default function Navbar() {
                 <motion.a
                   key={link.href}
                   href={link.href}
-                  onClick={() => setIsMobileOpen(false)}
+                  // Le fix mobile : on preventDefault pour éviter le saut natif,
+                  // puis on laisse scrollToSection gérer le délai + smooth scroll.
+                  onClick={e => {
+                    e.preventDefault();
+                    scrollToSection(link.href, closeMenu);
+                  }}
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.06, duration: 0.3 }}
                   style={{
-                    padding: "0.75rem 0.875rem",
+                    padding: "0.85rem 0.875rem",
                     borderRadius: "0.75rem",
                     color: "#6ee7b7",
                     textDecoration: "none",
-                    fontSize: "0.95rem",
+                    fontSize: "1rem",
                     fontWeight: 500,
                     fontFamily: "'DM Sans', sans-serif",
                     transition: "all 0.2s",
                     display: "block",
+                    cursor: "pointer",
                   }}
                   onMouseEnter={e => {
                     const el = e.currentTarget as HTMLElement;
@@ -247,16 +284,17 @@ export default function Navbar() {
                   {link.label}
                 </motion.a>
               ))}
+
               <motion.a
                 href="/resume.pdf"
-                download="Masihullah_Resume.pdf"
-                onClick={() => setIsMobileOpen(false)}
+                download="Masihullah_CV.pdf"
+                onClick={closeMenu}
                 initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: NAV_LINKS.length * 0.06, duration: 0.3 }}
                 style={{
                   marginTop: "0.5rem",
-                  padding: "0.75rem",
+                  padding: "0.85rem",
                   textAlign: "center",
                   background: "linear-gradient(135deg, #16a34a, #15803d)",
                   borderRadius: "0.75rem",
@@ -268,7 +306,7 @@ export default function Navbar() {
                   boxShadow: "0 4px 16px rgba(22, 163, 74, 0.35)",
                 }}
               >
-                Download Resume ↓
+                Télécharger mon CV ↓
               </motion.a>
             </nav>
           </motion.div>
@@ -276,17 +314,9 @@ export default function Navbar() {
       </AnimatePresence>
 
       <style>{`
-        /* 360° continuous spin */
-        @keyframes logoSpin {
-          0%   { transform: rotate(0deg);   }
-          100% { transform: rotate(360deg); }
-        }
-
-        /* Desktop: show nav, hide hamburger */
         .navbar-desktop   { display: flex !important; }
         .navbar-hamburger { display: none !important; }
 
-        /* Mobile: hide nav, show hamburger */
         @media (max-width: 767px) {
           .navbar-desktop   { display: none !important; }
           .navbar-hamburger { display: flex !important; }
