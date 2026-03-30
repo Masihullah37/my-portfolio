@@ -1,4 +1,4 @@
-// // src/components/sections/Skills.tsx
+// // // src/components/sections/Skills.tsx
 
 "use client";
 
@@ -162,18 +162,18 @@ export default function Skills() {
             fontSize: "0.7rem", letterSpacing: "0.3em", textTransform: "uppercase",
             color: "#4ade80", fontFamily: "'DM Sans', sans-serif", fontWeight: 600, marginBottom: "0.75rem",
           }}>
-            Prowess & Tech Stack
+            Expertise & Stack Technologique
           </p>
           <h2 style={{
             fontFamily: "'Syne', sans-serif", fontWeight: 800,
             fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.1,
             color: "#f0fdf4",
           }}>
-            Technical{" "}
+            Expertise{" "}
             <span style={{
               background: "linear-gradient(135deg, #4ade80 0%, #34d399 60%, #2dd4bf 100%)",
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
-            }}>Expertise</span>
+            }}>Technique</span>
           </h2>
         </motion.div>
 
@@ -250,14 +250,17 @@ export default function Skills() {
         >
           <div>
             <p style={{ fontSize: "0.68rem", letterSpacing: "0.25em", textTransform: "uppercase", color: "#4ade80", fontFamily: "'DM Sans', sans-serif", fontWeight: 600, marginBottom: "0.75rem" }}>
-              The Methodology
+              La Méthodologie
             </p>
             <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: "clamp(1.6rem, 3vw, 2.2rem)", lineHeight: 1.2, color: "#f0fdf4", marginBottom: "1.25rem" }}>
-              Skills &amp; Passion<br />Driving Results
+              {/* Skills &amp; Passion<br />Driving Results */}
+              Compétences &amp; Passion<br />au service des résultats
             </h3>
             <p style={{ fontSize: "0.9rem", color: "#a7d9b8", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.75, maxWidth: "28rem", opacity: 0.8 }}>
-              I combine modern frameworks with cloud-native architectures to build high-performance 
-              applications. My process focuses on scalability, clean UI/UX, and robust data management.
+              {/* I combine modern frameworks with cloud-native architectures to build high-performance 
+              applications. My process focuses on scalability, clean UI/UX, and robust data management. */}
+
+              J&apos;associe des frameworks modernes à des architectures cloud-native pour créer des applications hautement performantes. Mon approche se concentre sur la scalabilité, une UI/UX propre et une gestion robuste des données.
             </p>
           </div>
 
@@ -277,3 +280,6 @@ export default function Skills() {
     </section>
   );
 }
+
+
+
