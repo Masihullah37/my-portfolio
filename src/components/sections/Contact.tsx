@@ -4,7 +4,6 @@
 
 // src/components/sections/Contact.tsx
 // Formulaire de contact — branché sur /api/contact pour l'envoi réel.
-// Les labels et messages d'état sont en français pour rester cohérent avec le site.
 
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
