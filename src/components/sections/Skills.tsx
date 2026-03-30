@@ -5,7 +5,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
-// ── Category icons as simple SVG paths
+
 const CATEGORIES = [
   {
     num: "01",
