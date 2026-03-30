@@ -2,7 +2,7 @@
 
 "use client";
 // src/components/AiChat.tsx
-// Chatbot IA — traduit en français pour rester cohérent avec le reste du site.
+
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
