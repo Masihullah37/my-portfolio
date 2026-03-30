@@ -12,15 +12,15 @@ import type { PortfolioProject } from "@/types";
 const SAND = "#D4CAB2";
 const GREEN = "#55816A";
 
-// Project data
+
 const PROJECTS: PortfolioProject[] = [
   {
     id: "1",
     title: "EduFlow",
-    short: "Enterprise School Management System",
-    pillar: "The Complexity Pillar",
+    short: "Système de gestion scolaire d’entreprise",
+    pillar: "Pilier de la complexité",
     description:
-      "Comprehensive SaaS platform for educational institutions — RBAC for Admin / Teachers / Students, automated attendance, gradebook analytics, PDF reports, and CI/CD via GitHub Actions.",
+      "Plateforme SaaS complète pour établissements éducatifs — RBAC pour Administrateurs / Enseignants / Étudiants, gestion automatisée des présences, analyse des notes, rapports PDF et CI/CD via GitHub Actions.",
     tags: ["Laravel", "React", "MySQL", "Shadcn UI", "GitHub Actions"],
     type: "Full Stack · SaaS",
     cardColor: GREEN,
@@ -32,10 +32,10 @@ const PROJECTS: PortfolioProject[] = [
   {
     id: "2",
     title: "Velocity",
-    short: "Multi-Vendor E-commerce Engine",
-    pillar: "The Transactional Pillar",
+    short: "Moteur e-commerce multi-vendeurs",
+    pillar: "Pilier transactionnel",
     description:
-      "High-performance marketplace with real-time inventory syncing, advanced search, wishlists, Stripe / PayPal checkout, and a dedicated vendor portal. Frontend on Vercel, DB on Neon PostgreSQL.",
+      "Marketplace haute performance avec synchronisation d’inventaire en temps réel, recherche avancée, listes de souhaits, paiement Stripe / PayPal et portail dédié aux vendeurs. Frontend sur Vercel, base de données sur Neon PostgreSQL.",
     tags: ["Next.js", "Laravel", "PostgreSQL", "Stripe", "Vercel"],
     type: "Full Stack · Marketplace",
     cardColor: SAND,
@@ -47,10 +47,10 @@ const PROJECTS: PortfolioProject[] = [
   {
     id: "3",
     title: "Pulse",
-    short: "Real-Time Collaborative Task Manager",
-    pillar: "The Real-Time Pillar",
+    short: "Gestionnaire de tâches collaboratif en temps réel",
+    pillar: "Pilier du temps réel",
     description:
-      "Trello/Jira-style tool with drag-and-drop Kanban boards, Laravel Reverb WebSockets for live updates, real-time notifications, activity logs, and team workspaces via Supabase.",
+      "Outil de type Trello/Jira avec tableaux Kanban en glisser-déposer, WebSockets Laravel Reverb pour mises à jour en direct, notifications en temps réel, journaux d’activité et espaces d’équipe via Supabase.",
     tags: ["React", "Laravel Reverb", "WebSockets", "Supabase", "Framer Motion"],
     type: "Full Stack · SaaS",
     cardColor: GREEN,
@@ -62,10 +62,10 @@ const PROJECTS: PortfolioProject[] = [
   {
     id: "4",
     title: "CareSync",
-    short: "Healthcare Appointment & EHR Portal",
-    pillar: "The Security Pillar",
+    short: "Portail médical de rendez-vous & dossiers patients",
+    pillar: "Pilier de la sécurité",
     description:
-      "Secure patient-doctor portal with encrypted medical records, automated email/SMS reminders, doctor availability scheduling, and HIPAA-conscious design built with Shadcn UI.",
+      "Portail sécurisé patient-médecin avec dossiers médicaux chiffrés, rappels automatiques par email/SMS, gestion des disponibilités des médecins et conception conforme aux exigences HIPAA avec Shadcn UI.",
     tags: ["React", "Symfony", "MySQL", "Tailwind CSS", "Shadcn UI"],
     type: "Full Stack · Healthcare",
     cardColor: SAND,
@@ -77,10 +77,10 @@ const PROJECTS: PortfolioProject[] = [
   {
     id: "5",
     title: "QuickBite",
-    short: "Food Delivery & Order Management",
-    pillar: "The Real-Time Service Pillar",
+    short: "Livraison de nourriture & gestion des commandes",
+    pillar: "Pilier des services en temps réel",
     description:
-      "Live restaurant dashboard with Socket.io \"New Order\" notifications, live status toggles (Pending → Cooking → Out for Delivery), and a dynamic menu manager with Firebase image storage.",
+      "Tableau de bord restaurant en direct avec notifications Socket.io « Nouvelle commande », statuts en temps réel (En attente → En préparation → En livraison) et gestion dynamique du menu avec stockage d’images Firebase.",
     tags: ["React", "Node.js", "Socket.io", "MySQL", "Firebase"],
     type: "Full Stack · Food Tech",
     cardColor: GREEN,
@@ -422,16 +422,16 @@ export default function Projects() {
           style={{ textAlign: "center", marginBottom: "clamp(2rem, 6vh, 3.5rem)" }}
         >
           <p style={{ fontSize: "clamp(0.6rem, 2vw, 0.7rem)", letterSpacing: "0.2em", textTransform: "uppercase", color: "#4ade80", fontFamily: "'DM Sans',sans-serif", fontWeight: 600, marginBottom: "0.75rem" }}>
-            What I&apos;ve Built
+            Ce que j&apos;ai réalisé
           </p>
           <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: "clamp(1.8rem, 6vw, 3.25rem)", lineHeight: 1.1, color: "#f0fdf4" }}>
-            Featured{" "}
+            Projets{" "}
             <span style={{ background: `linear-gradient(135deg,${SAND} 0%,${GREEN} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-              Projects
+            mis en avant
             </span>
           </h2>
           <p style={{ marginTop: "0.75rem", color: "#4d7a54", fontFamily: "'DM Sans',sans-serif", fontSize: "clamp(0.85rem, 2.5vw, 0.95rem)", padding: "0 0.5rem" }}>
-            5 high-impact projects demonstrating complex data, real-time systems &amp; deployment automation.
+            5 projets à fort impact d&apos;émontrant des systèmes complexes, du temps réel et l’automatisation du déploiement
           </p>
         </motion.div>
 
