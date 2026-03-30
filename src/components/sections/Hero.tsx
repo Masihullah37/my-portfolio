@@ -2,7 +2,6 @@
 
 "use client"; // src/components/sections/Hero.tsx
 // Section d'accueil — première impression, chaque mot compte.
-// L'animation FlipWord alterne entre mon prénom et mon titre professionnel.
 
 import { useState, useEffect } from "react";
 import { motion, type Variants, AnimatePresence } from "framer-motion";

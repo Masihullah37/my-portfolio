@@ -4,7 +4,6 @@
 
 // src/components/Navbar.tsx
 // Navigation principale — fixe en haut, responsive desktop/mobile.
-// Fix principal : sur mobile, les liens doivent faire défiler vers la bonne section
 // ET fermer le menu. J'utilise scrollIntoView au lieu de href anchor pour éviter
 // les problèmes de timing avec l'état isMobileOpen.
 
