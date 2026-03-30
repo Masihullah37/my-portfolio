@@ -1,102 +1,105 @@
+
+
+
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import type { ChatMessage } from "@/types";
 
-// Mock responses as fallback (in case Gemini fails)
+// Réponses de secours (en cas d'échec de Gemini)
 function getSmartResponse(message: string): string {
   const query = message.toLowerCase();
   
-  if (query.includes("skill") || query.includes("tech") || query.includes("stack") || query.includes("know")) {
-    return "Masihullah is a Full Stack Developer with strong skills in:\n\n• React.js, Next.js, TypeScript, Tailwind CSS\n• Laravel/PHP, Node.js\n• MySQL, MongoDB, PostgreSQL\n• Git, GitHub Actions, Vercel\n\nTheir frontend skills are particularly strong, with 80-85% proficiency in React and Next.js!";
+  if (query.includes("compétence") || query.includes("techno") || query.includes("stack") || query.includes("sais") || query.includes("maîtrise")) {
+    return "Masihullah est un Développeur Full Stack avec de solides compétences :\n\n• React.js, Next.js, TypeScript, Tailwind CSS\n• Laravel/PHP, Node.js\n• MySQL, MongoDB, PostgreSQL\n• Git, GitHub Actions, Vercel\n\nSes compétences frontend sont particulièrement solides, avec 80-85% de maîtrise en React et Next.js !";
   } 
-  else if (query.includes("project") || query.includes("build") || query.includes("create")) {
-    return "Masihullah has built several impressive projects:\n\n1. **E-Commerce Platform** - Full-stack online store with Next.js, Laravel, MySQL, and Clerk auth\n2. **AI Task Manager** - Smart task app using React, Node.js, and Google Gemini AI\n3. **REST API** - Production-ready Laravel API with JWT auth and testing\n4. **Analytics Dashboard** - React dashboard with charts and data tables\n\nCheck out the Projects section on this portfolio for live demos!";
+  else if (query.includes("projet") || query.includes("réalisé") || query.includes("créé") || query.includes("développé")) {
+    return "Masihullah a développé plusieurs projets impressionnants :\n\n1. **Plateforme E-Commerce** - Site de vente en ligne full-stack avec Next.js, Laravel, MySQL et authentification Clerk\n2. **Gestionnaire de Tâches IA** - Application de tâches intelligente avec React, Node.js et Google Gemini AI\n3. **API REST** - API Laravel prête pour la production avec authentification JWT et tests\n4. **Tableau de Bord Analytique** - Dashboard React avec graphiques et tableaux de données\n\nConsultez la section Projets de ce portfolio pour des démos en direct !";
   }
-  else if (query.includes("available") || query.includes("hire") || query.includes("work") || query.includes("job")) {
-    return "Yes! Masihullah is actively seeking opportunities. They're open to:\n\n• Full-time positions\n• Part-time roles\n• Freelance work\n• Remote or on-site\n\nFeel free to use the contact form to get in touch!";
+  else if (query.includes("disponible") || query.includes("embaucher") || query.includes("travailler") || query.includes("emploi") || query.includes("poste")) {
+    return "Oui ! Masihullah recherche activement des opportunités. Il est ouvert à :\n\n• Postes à temps plein\n• Rôles à temps partiel\n• Missions freelance\n• Travail à distance ou sur site\n\nN'hésitez pas à utiliser le formulaire de contact pour entrer en relation !";
   }
-  else if (query.includes("experience") || query.includes("background") || query.includes("about")) {
-    return "Masihullah is a self-taught Full Stack Developer with about 12 months of focused learning. They've built real, deployed projects and are now seeking their first professional role. Their approach focuses on practical, working applications rather than just tutorials. They learn extremely quickly and are very dedicated to becoming a professional developer!";
+  else if (query.includes("expérience") || query.includes("parcours") || query.includes("à propos") || query.includes("formation")) {
+    return "Masihullah est un Développeur Full Stack autodidacte avec environ 12 mois d'apprentissage intensif. Il a réalisé des projets concrets et déployés et cherche actuellement son premier poste professionnel. Son approche se concentre sur des applications pratiques et fonctionnelles plutôt que sur de simples tutoriels. Il apprend extrêmement vite et est très dévoué à devenir un développeur professionnel !";
   }
-  else if (query.includes("location") || query.includes("where") || query.includes("paris")) {
-    return "Masihullah is based in Paris, France 🇫🇷 and is open to both remote and on-site opportunities in the area.";
+  else if (query.includes("localisation") || query.includes("où") || query.includes("paris") || query.includes("ville")) {
+    return "Masihullah est basé à Tours, France 🇫🇷 et est ouvert aux opportunités à distance et sur site dans la région.";
   }
-  else if (query.includes("contact") || query.includes("email") || query.includes("reach")) {
-    return "You can reach Masihullah through the contact form on this portfolio, or directly via email at masihullah37@gmail.com. They typically respond within 24 hours!";
+  else if (query.includes("contact") || query.includes("email") || query.includes("joindre") || query.includes("contacter")) {
+    return "Vous pouvez contacter Masihullah via le formulaire de contact sur ce portfolio, ou directement par email à masihullah37@gmail.com. Il répond généralement dans les 24 heures !";
   }
   else {
-    return "Thanks for your interest! I'm the AI assistant for Masihullah's portfolio. I can tell you about their skills, projects, experience, or availability. Feel free to ask me anything, or use the contact form to reach Masihullah directly! What would you like to know?";
+    return "Merci pour votre intérêt ! Je suis l'assistant IA du portfolio de Masihullah. Je peux vous parler de ses compétences, projets, expérience ou disponibilité. N'hésitez pas à me poser des questions, ou utilisez le formulaire de contact pour joindre Masihullah directement ! Que souhaitez-vous savoir ?";
   }
 }
 
 export async function POST(request: NextRequest) {
-  console.log("\n📨 Chat API called");
+  console.log("\n📨 API Chat appelée");
   
   try {
     const body = await request.json() as { messages?: ChatMessage[] };
     const { messages } = body;
     
     if (!messages || messages.length === 0) {
-      return NextResponse.json({ error: "messages required" }, { status: 400 });
+      return NextResponse.json({ error: "messages requis" }, { status: 400 });
     }
     
     const lastMessage = messages[messages.length - 1];
-    console.log("User message:", lastMessage?.content);
+    console.log("Message utilisateur:", lastMessage?.content);
     
     const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
-    console.log("API Key exists:", !!apiKey);
+    console.log("Clé API existe:", !!apiKey);
     
     let response = "";
     let usedGemini = false;
     
-    // Try to use Gemini if API key exists
+    // Essayer d'utiliser Gemini si la clé API existe
     if (apiKey && apiKey.trim() !== "") {
       try {
-        console.log("Attempting to use Gemini API with model: gemini-2.0-flash...");
+        console.log("Tentative d'utilisation de l'API Gemini avec le modèle: gemini-2.0-flash...");
         const genAI = new GoogleGenerativeAI(apiKey);
-        // Use gemini-2.0-flash from the available models list
+        // Utiliser gemini-2.0-flash parmi les modèles disponibles
         const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
         
-        const context = `You are a helpful AI assistant for Masihullah's developer portfolio.
+        const context = `Vous êtes un assistant IA utile pour le portfolio développeur de Masihullah.
         
-About Masihullah:
-- Full Stack Developer skilled in React, Next.js, TypeScript, Tailwind CSS, Laravel, Node.js
-- Based in tour, France
-- Open to job opportunities (full-time, part-time, freelance, remote)
-- Has built: E-Commerce Platform, AI Task Manager, REST API, Analytics Dashboard
+À propos de Masihullah:
+- Développeur Full Stack compétent en React, Next.js, TypeScript, Tailwind CSS, Laravel, Node.js
+- Basé à Tours, France
+- Ouvert aux opportunités professionnelles (temps plein, temps partiel, freelance, à distance)
+- A réalisé : Plateforme E-Commerce, Gestionnaire de Tâches IA, API REST, Tableau de Bord Analytique
 - Email: masihullah37@gmail.com
 - GitHub: github.com/Masihullah37
 
-Keep responses friendly, concise (under 100 words), and helpful. Use emojis occasionally to be friendly.`;
+Gardez les réponses amicales, concises (moins de 100 mots) et utiles. Utilisez occasionnellement des emojis pour être amical.`;
         
-        const prompt = `${context}\n\nUser question: ${lastMessage.content}\n\nAssistant:`;
+        const prompt = `${context}\n\nQuestion de l'utilisateur: ${lastMessage.content}\n\nAssistant:`;
         const result = await model.generateContent(prompt);
         response = result.response.text();
         usedGemini = true;
-        console.log("✅ Used Gemini API successfully!");
-        console.log("Response preview:", response.substring(0, 100));
+        console.log("✅ API Gemini utilisée avec succès !");
+        console.log("Aperçu de la réponse:", response.substring(0, 100));
       } catch (geminiError) {
-        console.log("⚠️ Gemini API failed:", geminiError instanceof Error ? geminiError.message : String(geminiError));
-        console.log("Using mock response instead");
+        console.log("⚠️ Échec de l'API Gemini:", geminiError instanceof Error ? geminiError.message : String(geminiError));
+        console.log("Utilisation d'une réponse de secours à la place");
       }
     } else {
-      console.log("No API key found, using mock responses");
+      console.log("Aucune clé API trouvée, utilisation des réponses de secours");
     }
     
-    // Fall back to mock if Gemini didn't work
+    // Utiliser les réponses de secours si Gemini n'a pas fonctionné
     if (!usedGemini) {
-      console.log("Using mock response system");
+      console.log("Utilisation du système de réponses de secours");
       await new Promise(resolve => setTimeout(resolve, 500));
       response = getSmartResponse(lastMessage.content);
-      console.log("Mock response sent");
+      console.log("Réponse de secours envoyée");
     }
     
     return NextResponse.json({ content: response });
     
   } catch (error) {
-    console.error("❌ Error in chat API:", error);
+    console.error("❌ Erreur dans l'API chat:", error);
     return NextResponse.json({
-      content: "Hi! I'm having a quick technical moment. Please feel free to use the contact form to reach out, or try asking again! 😊"
+      content: "Bonjour ! J'ai un petit problème technique. N'hésitez pas à utiliser le formulaire de contact pour me joindre, ou essayez de demander à nouveau ! 😊"
     });
   }
 }
