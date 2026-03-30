@@ -62,4 +62,3 @@ export interface ContactFormData {
   message: string;
 }
 
-//  git commit -m "feat: création des types TypeScript centralisés (types/index.ts)
